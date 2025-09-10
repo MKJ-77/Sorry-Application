@@ -18,7 +18,7 @@ import com.mkj.sooooorrrrryyyyy.ui.theme.*
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoveSorryScreen() {
+fun SorryScreenLove() {
     var currentStage by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
