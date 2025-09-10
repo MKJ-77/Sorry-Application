@@ -50,12 +50,14 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // Animation dependencies for smooth romantic animations
     implementation("androidx.compose.animation:animation:1.6.0")
     implementation("androidx.compose.animation:animation-core:1.6.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.0")
 
-    implementation("com.airbnb.android:lottie-compose:6.3.0")
 
+    // Advanced animations (optional - for future enhancements)
+    implementation("com.airbnb.android:lottie-compose:6.3.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
