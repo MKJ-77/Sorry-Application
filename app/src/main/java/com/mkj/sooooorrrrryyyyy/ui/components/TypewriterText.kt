@@ -1,4 +1,4 @@
-package com.mkj.sooooorrrrryyyyy.ui.component
+package com.mkj.sooooorrrrryyyyy.ui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

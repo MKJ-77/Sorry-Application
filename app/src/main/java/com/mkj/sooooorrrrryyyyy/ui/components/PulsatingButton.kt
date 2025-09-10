@@ -1,4 +1,4 @@
-package com.mkj.sooooorrrrryyyyy.ui.component
+package com.mkj.sooooorrrrryyyyy.ui.components
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background

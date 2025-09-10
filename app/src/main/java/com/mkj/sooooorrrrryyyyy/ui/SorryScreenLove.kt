@@ -1,165 +1,213 @@
 package com.mkj.sooooorrrrryyyyy.ui
 
-
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.mkj.sooooorrrrryyyyy.ui.component.*
-import com.mkj.sooooorrrrryyyyy.ui.theme.*
+import com.mkj.sooooorrrrryyyyy.ui.components.*
 import kotlinx.coroutines.delay
 
 @Composable
 fun SorryScreenLove() {
-    var currentStage by remember { mutableStateOf(0) }
-
-    LaunchedEffect(Unit) {
-        repeat(5) { stage ->
-            delay(if (stage == 0) 1000 else 3000)
-            currentStage = stage + 1
-        }
-    }
+    var apologyText by remember { mutableStateOf("") }
+    var showHeartCard by remember { mutableStateOf(false) }
+    var showTextInHeart by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        SoftPink,
-                        GentleBlue.copy(alpha = 0.3f),
-                        SoftPink
-                    )
-                )
-            )
+            .background(Color(0xFFF8BBD0))
     ) {
-        // Floating particles background
-        FloatingParticles()
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(32.dp)
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            // Hearts animation
-            if (currentStage >= 1) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(bottom = 32.dp)
-                ) {
-                    repeat(5) { index ->
-                        AnimatedHeart(
-                            initialDelay = index * 200L,
-                            color = when (index % 3) {
-                                0 -> HeartRed
-                                1 -> DeepRose
-                                else -> WarmPink
-                            }
-                        )
-                    }
-                }
-            }
-
-            // Main title
-            if (currentStage >= 2) {
-                TypewriterText(
-                    text = "I'm Deeply Sorry",
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = 36.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = WarmGray,
-                    startDelay = 500,
-                    typingDelayMs = 100,
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Apology message
-            if (currentStage >= 3) {
-                TypewriterText(
-                    text = "I know there's no excuse for what happened. My reflex action caused you pain, and I'm truly ashamed of myself.",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 20.sp,
-                        lineHeight = 28.sp
-                    ),
-                    color = WarmGray,
-                    startDelay = 1000,
-                    typingDelayMs = 40,
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            if (currentStage >= 4) {
-                TypewriterText(
-                    text = "You didn't deserve that, and I promise to be more mindful. Your friendship means everything to me, and I hope you can find it in your heart to forgive me.",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 18.sp,
-                        lineHeight = 26.sp
-                    ),
-                    color = WarmGray,
-                    startDelay = 2000,
-                    typingDelayMs = 45,
-                    modifier = Modifier.padding(bottom = 32.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            // Final message with button
-            if (currentStage >= 5) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    TypewriterText(
-                        text = "I made this app to show you how sorry I truly am.",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 16.sp
-                        ),
-                        color = SorrowBlue,
-                        startDelay = 500,
-                        typingDelayMs = 60,
-                        modifier = Modifier.padding(bottom = 24.dp)
-                    )
-
-                    PulsatingButton(
-                        text = "I Hope You Can Forgive Me ❤️",
-                        onClick = { /* Could show another screen or send a message */ },
-                        isVisible = true,
-                        modifier = Modifier.padding(bottom = 32.dp)
-                    )
-
-                    TypewriterText(
-                        text = "- Your truly sorry friend",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight.Light,
-                            fontSize = 14.sp
-                        ),
-                        color = WarmGray.copy(alpha = 0.7f),
-                        startDelay = 1500,
-                        typingDelayMs = 80,
-                        modifier = Modifier.padding(top = 16.dp)
+            // Animated hearts at top
+            Row {
+                repeat(5) {
+                    AnimatedHeartLove(
+                        modifier = Modifier
+                            .size(56.dp)
+                            .padding(4.dp),
+                        color = Color.Red,
+                        fast = it % 2 == 0
                     )
                 }
+            }
+
+            Spacer(Modifier.height(32.dp))
+
+            // Input field for custom message
+            OutlinedTextField(
+                value = apologyText,
+                onValueChange = { apologyText = it },
+                label = { Text("Type your love apology here...") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                singleLine = false,
+                maxLines = 4,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            // Button to show heart card with message
+            Button(
+                onClick = {
+                    showHeartCard = true
+                },
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                Text("Send My Love Apology ❤️")
+            }
+
+            Spacer(Modifier.height(40.dp))
+
+            // Heart-shaped card that appears first, then text appears inside
+            if (showHeartCard && apologyText.isNotEmpty()) {
+                HeartCardWithSequentialTextLove(
+                    text = apologyText,
+                    onHeartAppeared = { showTextInHeart = true }
+                )
             }
         }
     }
+}
+
+@Composable
+fun HeartCardWithSequentialTextLove(
+    text: String,
+    onHeartAppeared: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var heartVisible by remember { mutableStateOf(false) }
+    var heartFullyVisible by remember { mutableStateOf(false) }
+
+    // Heart appearance animation
+    val heartScale by animateFloatAsState(
+        targetValue = if (heartVisible) 1f else 0f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        finishedListener = {
+            if (heartVisible) {
+                heartFullyVisible = true
+                onHeartAppeared()
+            }
+        },
+        label = "heart_appear"
+    )
+
+    // Heart pulsing animation after it appears
+    val heartPulse by animateFloatAsState(
+        targetValue = if (heartFullyVisible) 1.05f else 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = EaseInOutCubic),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "heart_pulse"
+    )
+
+    LaunchedEffect(Unit) {
+        delay(500) // Small delay before heart appears
+        heartVisible = true
+    }
+
+    Box(
+        modifier = modifier
+            .size(300.dp, 270.dp)
+            .scale(heartScale * heartPulse),
+        contentAlignment = Alignment.Center
+    ) {
+        HeartShapedCardLove(
+            text = if (heartFullyVisible) text else "",
+            backgroundColor = Color(0xFFFFE4E6),
+            textColor = Color(0xFFAD1457),
+            borderColor = Color(0xFFE91E63),
+            showTextImmediately = heartFullyVisible
+        )
+    }
+}
+
+// Updated animated hearts for decoration
+@Composable
+fun AnimatedHeartLove(
+    modifier: Modifier = Modifier,
+    color: Color = Color.Red,
+    fast: Boolean = false,
+) {
+    val scale by animateFloatAsState(
+        targetValue = 1.3f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(if (fast) 400 else 1200, easing = EaseInOutCubic),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "heart_scale"
+    )
+
+    val rotation by animateFloatAsState(
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(if (fast) 2000 else 4000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "heart_rotation"
+    )
+
+    Canvas(modifier = modifier.scale(scale)) {
+        rotate(rotation) {
+            drawHeartLove(
+                color = color,
+                center = center,
+                size = size.minDimension * 0.4f
+            )
+        }
+    }
+}
+
+fun androidx.compose.ui.graphics.drawscope.DrawScope.drawHeartLove(
+    color: Color,
+    center: androidx.compose.ui.geometry.Offset,
+    size: Float,
+) {
+    val path = Path().apply {
+        val width = size
+        val height = size
+
+        moveTo(center.x, center.y + height * 0.3f)
+
+        cubicTo(
+            center.x - width * 0.5f, center.y - height * 0.1f,
+            center.x - width * 0.5f, center.y - height * 0.3f,
+            center.x, center.y - height * 0.1f
+        )
+
+        cubicTo(
+            center.x + width * 0.5f, center.y - height * 0.3f,
+            center.x + width * 0.5f, center.y - height * 0.1f,
+            center.x, center.y + height * 0.3f
+        )
+
+        close()
+    }
+
+    drawPath(path, color)
 }
