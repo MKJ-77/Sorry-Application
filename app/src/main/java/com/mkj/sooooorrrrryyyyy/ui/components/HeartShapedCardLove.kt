@@ -1,11 +1,28 @@
 package com.mkj.sooooorrrrryyyyy.ui.components
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.GenericShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -14,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -26,11 +44,11 @@ fun HeartShapedCardLove(
     backgroundColor: Color = Color(0xFFFFE4E6),
     textColor: Color = Color(0xFFAD1457),
     borderColor: Color = Color(0xFFE91E63),
-    showTextImmediately: Boolean = false
+    showTextImmediately: Boolean = false,
 ) {
     Box(
         modifier = modifier
-            .size(280.dp, 250.dp)
+            .size(320.dp, 280.dp)
             .clip(HeartShape)
     ) {
         Card(
@@ -42,18 +60,27 @@ fun HeartShapedCardLove(
                 defaultElevation = 12.dp
             )
         ) {
+            // FIXED: Position text in upper center area of heart
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(20.dp),
-                contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = 10.dp),
+                contentAlignment = Alignment.TopCenter // Changed from Center to TopCenter
             ) {
                 if (showTextImmediately && text.isNotEmpty()) {
                     TypewriterTextInHeartLove(
                         text = text,
                         textColor = textColor,
-                        typingDelayMs = 60,
-                        startDelay = 800 // Wait a bit after heart appears
+                        typingDelayMs = 40,
+                        startDelay = 600,
+                        // FIXED: Better positioning for upper center of heart
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                top = 50.dp,    // Start from upper area
+                                start = 40.dp,  // Side padding
+                                end = 40.dp,    // Side padding
+                                bottom = 80.dp  // Leave space at bottom
+                            )
                     )
                 }
             }
@@ -78,26 +105,26 @@ fun HeartShapedCardLove(
     }
 }
 
-// Custom Heart Shape for clipping the card
+// FIXED Custom Heart Shape with better proportions for text
 val HeartShape = GenericShape { size, _ ->
     val width = size.width
     val height = size.height
 
-    // Create heart path - optimized for text display
-    moveTo(width * 0.5f, height * 0.2f)
+    // Optimized heart shape for better text area
+    moveTo(width * 0.5f, height * 0.15f)
 
     // Left curve of heart
     cubicTo(
-        width * 0.15f, height * 0.05f,
-        width * 0.05f, height * 0.35f,
-        width * 0.5f, height * 0.7f
+        width * 0.2f, height * 0.0f,
+        width * 0.0f, height * 0.25f,
+        width * 0.5f, height * 0.65f
     )
 
     // Right curve of heart
     cubicTo(
-        width * 0.95f, height * 0.35f,
-        width * 0.85f, height * 0.05f,
-        width * 0.5f, height * 0.2f
+        width * 1.0f, height * 0.25f,
+        width * 0.8f, height * 0.0f,
+        width * 0.5f, height * 0.15f
     )
 
     close()
@@ -109,34 +136,33 @@ fun createHeartPath(size: androidx.compose.ui.geometry.Size): Path {
     val width = size.width
     val height = size.height
 
-    path.moveTo(width * 0.5f, height * 0.2f)
+    path.moveTo(width * 0.5f, height * 0.15f)
 
     // Left curve
     path.cubicTo(
-        width * 0.15f, height * 0.05f,
-        width * 0.05f, height * 0.35f,
-        width * 0.5f, height * 0.7f
+        width * 0.2f, height * 0.0f,
+        width * 0.0f, height * 0.25f,
+        width * 0.5f, height * 0.65f
     )
 
     // Right curve
     path.cubicTo(
-        width * 0.95f, height * 0.35f,
-        width * 0.85f, height * 0.05f,
-        width * 0.5f, height * 0.2f
+        width * 1.0f, height * 0.25f,
+        width * 0.8f, height * 0.0f,
+        width * 0.5f, height * 0.15f
     )
 
     path.close()
     return path
 }
 
-// Typewriter text optimized for heart-shaped display
 @Composable
 fun TypewriterTextInHeartLove(
     text: String,
     textColor: Color = Color(0xFFAD1457),
-    typingDelayMs: Long = 60,
+    typingDelayMs: Long = 40,
     startDelay: Long = 0,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var displayedText by remember { mutableStateOf("") }
     var showCursor by remember { mutableStateOf(true) }
@@ -154,13 +180,13 @@ fun TypewriterTextInHeartLove(
 
         typingFinished = true
 
-        // Cursor blinking after typing finishes
         while (true) {
-            delay(600)
+            delay(500)
             showCursor = !showCursor
         }
     }
 
+    // FIXED: Perfect center alignment
     Text(
         text = displayedText + when {
             !typingFinished -> "💖"
@@ -168,29 +194,28 @@ fun TypewriterTextInHeartLove(
             else -> ""
         },
         color = textColor,
-        fontSize = 15.sp,
-        fontWeight = FontWeight.SemiBold,
-        textAlign = TextAlign.Center,
-        lineHeight = 20.sp,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Medium,
+        textAlign = TextAlign.Center, // Ensure center alignment
+        lineHeight = 18.sp,
+        overflow = TextOverflow.Visible,
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp)
     )
 }
 
 // Sparkle effects around the heart
 @Composable
 fun SparkleEffectsLove(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val sparklePositions = remember {
         listOf(
-            0.1f to 0.2f,
-            0.9f to 0.3f,
-            0.2f to 0.8f,
-            0.8f to 0.9f,
-            0.05f to 0.6f,
-            0.95f to 0.7f
+            0.15f to 0.1f,   // Top left
+            0.85f to 0.15f,  // Top right
+            0.1f to 0.4f,    // Mid left
+            0.9f to 0.45f,   // Mid right
+            0.25f to 0.8f,   // Bottom left
+            0.75f to 0.85f   // Bottom right
         )
     }
 
@@ -200,10 +225,10 @@ fun SparkleEffectsLove(
                 .fillMaxSize()
                 .wrapContentSize(Alignment.TopStart)
                 .offset(
-                    x = (280.dp * x),
-                    y = (250.dp * y)
+                    x = (320.dp * x),
+                    y = (280.dp * y)
                 ),
-            delay = index * 300L
+            delay = index * 200L
         )
     }
 }
@@ -211,21 +236,21 @@ fun SparkleEffectsLove(
 @Composable
 fun SparkleAnimationLove(
     modifier: Modifier = Modifier,
-    delay: Long = 0
+    delay: Long = 0,
 ) {
     val scale by animateFloatAsState(
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = EaseInOutCubic, delayMillis = delay.toInt()),
+            animation = tween(1200, easing = EaseInOutCubic, delayMillis = delay.toInt()),
             repeatMode = RepeatMode.Reverse
         ),
         label = "sparkle_scale"
     )
 
     val alpha by animateFloatAsState(
-        targetValue = 0.8f,
+        targetValue = 0.9f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1200, easing = EaseInOutCubic, delayMillis = delay.toInt()),
+            animation = tween(1000, easing = EaseInOutCubic, delayMillis = delay.toInt()),
             repeatMode = RepeatMode.Reverse
         ),
         label = "sparkle_alpha"
@@ -233,7 +258,7 @@ fun SparkleAnimationLove(
 
     Canvas(
         modifier = modifier
-            .size(12.dp)
+            .size(10.dp)
             .scale(scale)
     ) {
         drawCircle(
@@ -241,8 +266,8 @@ fun SparkleAnimationLove(
             radius = size.minDimension / 2
         )
         drawCircle(
-            color = Color.White.copy(alpha = alpha * 0.7f),
-            radius = size.minDimension / 4
+            color = Color.White.copy(alpha = alpha * 0.8f),
+            radius = size.minDimension / 3
         )
     }
 }

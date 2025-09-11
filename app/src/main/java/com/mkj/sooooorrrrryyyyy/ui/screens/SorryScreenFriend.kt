@@ -1,4 +1,4 @@
-package com.mkj.sooooorrrrryyyyy.ui
+package com.mkj.sooooorrrrryyyyy.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,11 +14,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mkj.sooooorrrrryyyyy.ui.components.*
+import com.mkj.sooooorrrrryyyyy.ui.components.animated_component.AnimatedStar
+import com.mkj.sooooorrrrryyyyy.ui.components.animated_component.FloatingParticles
 import com.mkj.sooooorrrrryyyyy.ui.theme.*
 import kotlinx.coroutines.delay
 
 @Composable
-fun SorryScreen() {
+fun SorryScreenFriend() {
     var currentStage by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
