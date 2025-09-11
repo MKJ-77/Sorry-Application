@@ -1,4 +1,4 @@
-package com.mkj.sooooorrrrryyyyy.ui.components
+package com.mkj.sooooorrrrryyyyy.ui.screens
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
@@ -13,7 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mkj.sooooorrrrryyyyy.LoveMessages
+import kotlinx.coroutines.delay
 
 @Composable
 fun LoveInputScreenLove(
@@ -45,13 +45,13 @@ fun LoveInputScreenLove(
 
     // Sequential animation to show fields one by one
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(500)
+        delay(500)
         showFirstField = true
-        kotlinx.coroutines.delay(800)
+        delay(800)
         showSecondField = true
-        kotlinx.coroutines.delay(800)
+        delay(800)
         showThirdField = true
-        kotlinx.coroutines.delay(600)
+        delay(600)
         showButton = true
     }
 

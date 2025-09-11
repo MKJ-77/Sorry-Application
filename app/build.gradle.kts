@@ -58,6 +58,7 @@ dependencies {
 
     // Advanced animations (optional - for future enhancements)
     implementation("com.airbnb.android:lottie-compose:6.3.0")
+    implementation(libs.androidx.navigation.compose.jvmstubs)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

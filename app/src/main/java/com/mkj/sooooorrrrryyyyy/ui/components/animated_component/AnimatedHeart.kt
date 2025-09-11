@@ -1,4 +1,4 @@
-package com.mkj.sooooorrrrryyyyy.ui.components
+package com.mkj.sooooorrrrryyyyy.ui.components.animated_component
 
 
 import androidx.compose.animation.core.*

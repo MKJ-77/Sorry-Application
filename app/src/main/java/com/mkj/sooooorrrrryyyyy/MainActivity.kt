@@ -14,9 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mkj.sooooorrrrryyyyy.ui.LoveDisplayScreenLove
-import com.mkj.sooooorrrrryyyyy.ui.SorryScreen
-import com.mkj.sooooorrrrryyyyy.ui.components.LoveInputScreenLove
+import androidx.navigation.compose.rememberNavController
+import com.mkj.sooooorrrrryyyyy.ui.NavigationGraph
+import com.mkj.sooooorrrrryyyyy.ui.Routes
+import com.mkj.sooooorrrrryyyyy.ui.screens.LoveDisplayScreenLove
+import com.mkj.sooooorrrrryyyyy.ui.screens.SorryScreenFriend
+import com.mkj.sooooorrrrryyyyy.ui.screens.LoveInputScreenLove
 import com.mkj.sooooorrrrryyyyy.ui.theme.SorryAppThemeLove
 
 class MainActivity : ComponentActivity() {
@@ -25,17 +28,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SorryAppThemeLove {
-                LoveApologyAppLove()
+                NavigationGraph(navController = rememberNavController() , startDestination = Routes.Love.route)
             }
         }
     }
 }
 
+
 @Composable
 @Preview
 fun LoveApologyAppLove() {
     // Navigation state - true shows input screen, false shows display screen
-    var showInputScreen by remember { mutableStateOf(false) }
+    var showInputScreen by remember { mutableStateOf(true) }
 
     // State to hold all user messages
     var loveMessages by remember { mutableStateOf(LoveMessages()) }
@@ -63,6 +67,6 @@ fun SorryForFriend() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        SorryScreen()
+        SorryScreenFriend()
     }
 }
