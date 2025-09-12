@@ -314,11 +314,11 @@ fun CalmFriendCardLove(
             .size(280.dp)
             .scale(cardScale * calmPulse)
             .rotate(cardSway)
+            .clip(RoundedCornerShape(32.dp))
             .clickable {
                 isPressed = true
                 onClick()
-            }
-            .clip(RoundedCornerShape(32.dp)),
+            },
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent

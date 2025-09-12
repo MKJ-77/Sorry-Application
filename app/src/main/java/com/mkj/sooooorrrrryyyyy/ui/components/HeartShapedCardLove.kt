@@ -48,7 +48,7 @@ fun HeartShapedCardLove(
 ) {
     Box(
         modifier = modifier
-            .size(320.dp, 280.dp)
+            .size(440.dp, 340.dp)
             .clip(HeartShape)
     ) {
         Card(
@@ -60,10 +60,10 @@ fun HeartShapedCardLove(
                 defaultElevation = 12.dp
             )
         ) {
-            // FIXED: Position text in upper center area of heart
+        // Position text in upper center area of heart
             Box(
                 modifier = Modifier.fillMaxSize()
-                    .padding(horizontal = 10.dp),
+                    .padding(horizontal = 20.dp),
                 contentAlignment = Alignment.TopCenter // Changed from Center to TopCenter
             ) {
                 if (showTextImmediately && text.isNotEmpty()) {
@@ -72,7 +72,7 @@ fun HeartShapedCardLove(
                         textColor = textColor,
                         typingDelayMs = 40,
                         startDelay = 600,
-                        // FIXED: Better positioning for upper center of heart
+                        // Better positioning for upper center of heart
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
@@ -111,20 +111,20 @@ val HeartShape = GenericShape { size, _ ->
     val height = size.height
 
     // Optimized heart shape for better text area
-    moveTo(width * 0.5f, height * 0.15f)
+    moveTo(width * 0.5f, height * 0.1f)
 
     // Left curve of heart
     cubicTo(
-        width * 0.2f, height * 0.0f,
-        width * 0.0f, height * 0.25f,
-        width * 0.5f, height * 0.65f
+        width * 0.15f, height * 0.0f,
+        width * 0.0f, height * 0.35f,
+        width * 0.5f, height * 0.75f
     )
 
     // Right curve of heart
     cubicTo(
-        width * 1.0f, height * 0.25f,
-        width * 0.8f, height * 0.0f,
-        width * 0.5f, height * 0.15f
+        width * 1.0f, height * 0.35f,
+        width * 0.85f, height * 0.0f,
+        width * 0.5f, height * 0.1f
     )
 
     close()
@@ -136,20 +136,20 @@ fun createHeartPath(size: androidx.compose.ui.geometry.Size): Path {
     val width = size.width
     val height = size.height
 
-    path.moveTo(width * 0.5f, height * 0.15f)
+    path.moveTo(width * 0.5f, height * 0.1f)
 
     // Left curve
     path.cubicTo(
-        width * 0.2f, height * 0.0f,
-        width * 0.0f, height * 0.25f,
-        width * 0.5f, height * 0.65f
+        width * 0.15f, height * 0.0f,
+        width * 0.0f, height * 0.35f,
+        width * 0.5f, height * 0.75f
     )
 
     // Right curve
     path.cubicTo(
-        width * 1.0f, height * 0.25f,
-        width * 0.8f, height * 0.0f,
-        width * 0.5f, height * 0.15f
+        width * 1.0f, height * 0.35f,
+        width * 0.85f, height * 0.0f,
+        width * 0.5f, height * 0.1f
     )
 
     path.close()

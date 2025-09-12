@@ -3,7 +3,6 @@ package com.mkj.sooooorrrrryyyyy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,22 +12,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.mkj.sooooorrrrryyyyy.ui.NavigationGraph
-import com.mkj.sooooorrrrryyyyy.ui.Routes
-import com.mkj.sooooorrrrryyyyy.ui.screens.LoveDisplayScreenLove
-import com.mkj.sooooorrrrryyyyy.ui.screens.SorryScreenFriend
+import com.mkj.sooooorrrrryyyyy.ui.screens.LoveApologyScreen
 import com.mkj.sooooorrrrryyyyy.ui.screens.LoveInputScreenLove
+import com.mkj.sooooorrrrryyyyy.ui.screens.SorryScreenFriend
 import com.mkj.sooooorrrrryyyyy.ui.theme.SorryAppThemeLove
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             SorryAppThemeLove {
-                NavigationGraph(navController = rememberNavController() , startDestination = Routes.Love.route)
+                NavigationGraph(navController = rememberNavController())
             }
         }
     }
@@ -36,7 +32,6 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-@Preview
 fun LoveApologyAppLove() {
     // Navigation state - true shows input screen, false shows display screen
     var showInputScreen by remember { mutableStateOf(true) }
@@ -55,7 +50,7 @@ fun LoveApologyAppLove() {
         )
     } else {
         // Display Screen - shows the romantic apology with animations
-        LoveDisplayScreenLove(
+        LoveApologyScreen(
             messages = loveMessages
         )
     }

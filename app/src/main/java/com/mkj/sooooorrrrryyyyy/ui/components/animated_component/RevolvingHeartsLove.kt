@@ -1,11 +1,14 @@
 package com.mkj.sooooorrrrryyyyy.ui.components.animated_component
 
+import androidx.compose.animation.core.EaseInOutCubic
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -13,10 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mkj.sooooorrrrryyyyy.ui.components.SmallRevolvingHeartLove
-import com.mkj.sooooorrrrryyyyy.ui.screens.CenterSparkleLove
 
 /**
  * Revolving Hearts Component
@@ -66,7 +68,7 @@ fun RevolvingHeartsLove(
                 angle = angle,
                 radius = radiusOffset,
                 index = index,
-                modifier = Modifier.size(20.dp) // Reduced heart size
+                modifier = Modifier.size(35.dp) // Reduced heart size
             )
         }
 
@@ -74,3 +76,35 @@ fun RevolvingHeartsLove(
         CenterSparkleLove()
     }
 }
+
+/**
+ * Center Sparkle Effect for Revolving Hearts
+ * Adds a glowing center point with pulsing animation
+ */
+@Composable
+fun CenterSparkleLove() {
+    val sparkleScale by animateFloatAsState(
+        targetValue = 1.3f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = EaseInOutCubic),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "center_sparkle"
+    )
+
+    Canvas(
+        modifier = Modifier
+            .size(14.dp)
+            .scale(sparkleScale)
+    ) {
+        drawCircle(
+            color = Color(0xFFFFD700),
+            radius = size.minDimension / 2
+        )
+        drawCircle(
+            color = Color.White,
+            radius = size.minDimension / 3
+        )
+    }
+}
+

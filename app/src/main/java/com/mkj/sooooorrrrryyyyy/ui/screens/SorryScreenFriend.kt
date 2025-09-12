@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SorryScreenFriend() {
-    var currentStage by remember { mutableStateOf(0) }
+    var currentStage by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         repeat(5) { stage ->
