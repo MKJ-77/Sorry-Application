@@ -1,4 +1,4 @@
-package com.mkj.sooooorrrrryyyyy.ui.components
+package com.mkj.sooooorrrrryyyyy.ui.components.animated_component
 
 import androidx.compose.animation.core.EaseInOutCubic
 import androidx.compose.animation.core.RepeatMode
@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.mkj.sooooorrrrryyyyy.ui.screens.drawHeartShape
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -55,4 +57,40 @@ fun SmallRevolvingHeartLove(
     ) {
         drawHeartShape(color, center, size.minDimension * 0.4f)
     }
+}
+
+
+/**
+ * Helper function to draw heart shapes in Canvas
+ * Used by revolving hearts animation
+ */
+fun DrawScope.drawHeartShape(
+    color: Color,
+    center: Offset,
+    size: Float,
+) {
+    val path = Path().apply {
+        val width = size
+        val height = size
+
+        moveTo(center.x, center.y + height * 0.3f)
+
+        // Left curve of heart
+        cubicTo(
+            center.x - width * 0.5f, center.y - height * 0.1f,
+            center.x - width * 0.5f, center.y - height * 0.3f,
+            center.x, center.y - height * 0.1f
+        )
+
+        // Right curve of heart
+        cubicTo(
+            center.x + width * 0.5f, center.y - height * 0.3f,
+            center.x + width * 0.5f, center.y - height * 0.1f,
+            center.x, center.y + height * 0.3f
+        )
+
+        close()
+    }
+
+    drawPath(path, color)
 }
